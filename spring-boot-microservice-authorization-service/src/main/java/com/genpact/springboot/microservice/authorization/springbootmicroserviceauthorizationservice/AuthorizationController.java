@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -20,11 +22,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.genpact.springboot.microservice.authorization.springbootmicroserviceauthorizationservice.model.Remittance;
+import com.genpact.springboot.microservice.authorization.springbootmicroserviceauthorizationservice.repository.RemittanceRepository;
+
 @Controller
 public class AuthorizationController {
 
+	private final static String OPEN = "O";
+	
+	@Autowired
+	private RemittanceRepository repository;
+	
     @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
+    public String listRemittances(Model model) throws IOException {
+    	List<Remittance> remittances = repository.findAllByStatus(OPEN);
+    	model.addAttribute("remittances", remittances);
         return "authorizationForm";
     }
 
