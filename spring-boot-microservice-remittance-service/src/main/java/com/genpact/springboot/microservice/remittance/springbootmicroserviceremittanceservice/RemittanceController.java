@@ -24,10 +24,23 @@ public class RemittanceController {
     uriVariables.put("to", to);*/
 
     ResponseEntity<Boolean> responseEntity = new RestTemplate().getForEntity(
-        "http://localhost:8000/validation", Boolean.class);
+        "http://localhost:8200/feedback", Boolean.class);
 
+    // File processing = ok
+    
+    // Validation - random true or false
+    
     Boolean response = responseEntity.getBody();
     remittance.setValid(response.booleanValue());
+    
+    // authorization - automatic or manual
+    // if(automatic) else {}
+    
+    // segregation (DTD or CTA)
+    
+    // Delivery (courier depends on product)
+    
+    // Feedback - create files like 2018MAR13_ML, 2018MAR13_SB
 
     return remittance;
   }
