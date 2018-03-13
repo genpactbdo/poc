@@ -32,7 +32,7 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService{
 
 	private JpaRepository<Remittance,Long> remittanceRepository;
 	
-	private final String FILEPATH = "D:\\Users\\User1\\Downloads\\spring-boot-microservice-fileimport-service\\spring-boot-microservice-fileimport-service";
+	private final String FILEPATH = "listenFolder"; 
 	
 	@Autowired
 	private RemittanceService remittanceService;
