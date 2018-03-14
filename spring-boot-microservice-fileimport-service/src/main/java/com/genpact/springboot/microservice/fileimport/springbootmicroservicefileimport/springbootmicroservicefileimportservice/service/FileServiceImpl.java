@@ -21,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.genpact.springboot.microservice.fileimport.springbootmicroservicefileimport.springbootmicroservicefileimportservice.FileParser;
@@ -32,7 +35,7 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService{
 
 	private JpaRepository<Remittance,Long> remittanceRepository;
 	
-	private final String FILEPATH = "D:\\Users\\User1\\Downloads\\spring-boot-microservice-fileimport-service\\spring-boot-microservice-fileimport-service";
+	private final String FILEPATH = "listenFolder";
 	
 	@Autowired
 	private RemittanceService remittanceService;
@@ -46,6 +49,14 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService{
 		
 		FileParser fileParser = new FileParser(file2);
 		List<Remittance> list = fileParser.parseRemittance();
+		
+		/*for(Remittance remit : list) {
+			RestTemplate rt = new RestTemplate();
+			rt.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+			rt.getMessageConverters().add(new StringHttpMessageConverter());
+			
+			rt.postForObject("http://localhost:8200/test", remit, String.class);
+		}*/
 
 		return list;
 	}
