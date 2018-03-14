@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+		<form method="POST" enctype="multipart/form-data" action="/">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Conduit</th>
+						<th>Amount</th>
+						<th>Status</th>
+						<th>Authorize</th>
+					</tr>
+				</thead>
+				<th:block th:each="remittance : ${remittances}">
+					<tr>
+						<td th:text="${remittance.conduit}"/>
+						<td th:text="${remittance.sourceAmount}"/>
+						<td th:text="${remittance.status}"/>
+						<td><input type="checkbox"/></td>
+					</tr>
+				</th:block>
+			</table>
+			<table>
+				<tr><td></td><td><input type="text" /></td></tr>
+				<tr><td></td><td><input type="submit" value="Authorize" /></td></tr>
+			</table>
+		</form>
+
+</body>
+</html>
