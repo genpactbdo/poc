@@ -8,6 +8,10 @@ import java.util.stream.LongStream;
 import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.genpact.springboot.microservice.authorization.springbootmicroserviceauthorizationservice.model.Conduit;
@@ -204,10 +209,22 @@ public class AuthorizationController {
 			
 			remittance.setStatus(PROCESSED);
 	    	repository.save(remittance);
+	    	
+	    	// call delivery
+	    	sendRemittanceJson("http://localhost:8500/add_delivery", remittance);
 		}
     	
     	return ResponseEntity.ok().build();
     	
     }
+    
+    public void sendRemittanceJson(String url, Remittance remittance) {
+		// TODO Auto-generated method stub
+		RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);       
+        HttpEntity<?> entity = new HttpEntity<Object>(remittance,headers);
+        ResponseEntity<Object> responseEntity =  restTemplate.exchange(url, HttpMethod.POST, entity, Object.class);       
+	}
 
 }
