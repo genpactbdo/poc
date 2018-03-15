@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h1>BDO iRems Feedback Upload Status</h1>
+
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
+
+<a href="/feedback/feedback_list"><button type="button">Go to Feedback List</button></a>
+<a href="/feedback"><button type="button">Upload another file</button></a>
+</body>
+</html>

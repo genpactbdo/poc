@@ -1,16 +1,17 @@
 package com.genpact.springboot.microservice.delivery.springbootmicroservicedelivery.springbootmicroservicedeliveryservice.model;
+
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.genpact.springboot.microservice.delivery.springbootmicroservicedelivery.springbootmicroservicedeliveryservice.model.basemodel.BaseModel;
- 
+
 @Entity
-@Table(name="DELIVERY_REMITTANCE")
-public class Remittance extends BaseModel {
- 
-    private String status;
+@Table(name="DELIVERY_FEEDBACK")
+public class Feedback extends BaseModel {
+
+	private String status;
     private String conduit;
     private Date date;
     private String transactionType;
@@ -46,13 +47,7 @@ public class Remittance extends BaseModel {
     private String beneficiaryPostalCode;
     private String beneficiaryCountry;
     
-    public Remittance() {
-	}
-    
-	public Remittance(String conduit) {
-		this.conduit = conduit;
-	}
-	
+  	
 	public String getStatus() {
 		return status;
 	}
@@ -265,5 +260,4 @@ public class Remittance extends BaseModel {
 	public void setBeneficiaryCountry(String beneficiaryCountry) {
 		this.beneficiaryCountry = beneficiaryCountry;
 	}
-    
 }

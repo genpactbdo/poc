@@ -1,0 +1,37 @@
+<!DOCTYPE HTML> 
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Feedback List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+	<body>
+		<h1>Feedback List</h1>		
+		<br>	
+		<table border="1" style="width:300px">
+			<tr>				
+				<th>Conduit</th>
+				<th>Reference No.</th>
+				<th>Product Type</th>
+				<th>Transaction Date</th>
+				<th>Remitter Name</th>
+				<th>Beneficiary Name</th>
+				<th>Amount</th>
+				<th>Currency</th>
+				<th>Status</th>
+			</tr>
+			<tr th:each="feedback : ${feedbackList}">
+				<td th:text="${feedback.conduit}"></th:text>
+				<td th:text="${feedback.refNo}"></th:text>
+				<td th:text="${feedback.productType}"></th:text>
+				<td th:text="${feedback.date}"></th:text>
+				<td th:text="${feedback.remitterName}"></th:text>
+				<td th:text="${feedback.beneficiaryName}"></th:text>
+				<td th:text="${feedback.sourceAmount}"></th:text>
+				<td th:text="${feedback.sourceCurrency}"></th:text>
+				<td th:text="${feedback.status}"></th:text>			
+			</tr>
+		</table>
+		<br>
+		<a href="/feedback"><button type="button">Upload another file</button></a>	
+	</body>
+</html>

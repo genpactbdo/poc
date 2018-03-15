@@ -14,4 +14,5 @@ public interface FileService extends BaseService{
 
 	List<Remittance> parseUploadFile(MultipartFile file) throws FileNotFoundException, IOException, NumberFormatException, ParseException;
 	void parseFileFromFolder();
+	void sendRemittanceJson(String url, Remittance remittance);
 }

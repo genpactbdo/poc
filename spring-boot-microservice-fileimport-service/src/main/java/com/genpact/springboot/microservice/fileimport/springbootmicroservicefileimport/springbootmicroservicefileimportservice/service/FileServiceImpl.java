@@ -21,6 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
@@ -37,6 +42,8 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService{
 	
 	private final String FILEPATH = "listenFolder";
 	
+	private final String AUTHORIZATION_URL = "http://localhost:8200/authorize";
+	
 	@Autowired
 	private RemittanceService remittanceService;
 	
@@ -48,15 +55,7 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService{
 		fos.close();
 		
 		FileParser fileParser = new FileParser(file2);
-		List<Remittance> list = fileParser.parseRemittance();
-		
-		/*for(Remittance remit : list) {
-			RestTemplate rt = new RestTemplate();
-			rt.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-			rt.getMessageConverters().add(new StringHttpMessageConverter());
-			
-			rt.postForObject("http://localhost:8200/test", remit, String.class);
-		}*/
+		List<Remittance> list = fileParser.parseRemittance();			
 
 		return list;
 	}
@@ -98,7 +97,11 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService{
 						List<Remittance> list = fileParser.parseRemittance();
 						
 						System.out.println("Valid file");
-						remittanceService.saveAll(list);
+						//remittanceService.saveAll(list);
+						for(Remittance remittance : list) {
+							sendRemittanceJson(AUTHORIZATION_URL, remittance);
+						}
+						
 					}catch(Exception e) {
 						e.printStackTrace();
 					}
@@ -114,5 +117,15 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService{
 			e.printStackTrace();
 		}
 								
+	}
+	
+	@Override
+	public void sendRemittanceJson(String url, Remittance remittance) {
+		// TODO Auto-generated method stub
+		RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);       
+        HttpEntity<?> entity = new HttpEntity<Object>(remittance,headers);
+        ResponseEntity<Object> responseEntity =  restTemplate.exchange(url, HttpMethod.POST, entity, Object.class);       
 	}
 }

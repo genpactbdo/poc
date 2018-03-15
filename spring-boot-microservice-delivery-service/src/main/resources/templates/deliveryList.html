@@ -1,0 +1,41 @@
+<!DOCTYPE HTML> 
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Delivery List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+	<body>
+		<h1>For Delivery List</h1>	
+		<br>	
+		<table border="1" style="width:300px">
+			<tr>				
+				<th>Conduit</th>
+				<th>Reference No.</th>
+				<th>Product Type</th>
+				<th>Transaction Date</th>
+				<th>Remitter Name</th>
+				<th>Beneficiary Name</th>
+				<th>Beneficiary Address</th>
+				<th>Amount</th>
+				<th>Currency</th>
+				<th>Status</th>
+			</tr>
+			<tr th:each="delivery : ${deliveryList}">
+				<td th:text="${delivery.conduit}"></th:text>
+				<td th:text="${delivery.refNo}"></th:text>
+				<td th:text="${delivery.productType}"></th:text>
+				<td th:text="${delivery.date}"></th:text>
+				<td th:text="${delivery.remitterName}"></th:text>
+				<td th:text="${delivery.beneficiaryName}"></th:text>
+				<td th:text="${delivery.beneficiaryAddress1}"></th:text>
+				<td th:text="${delivery.sourceAmount}"></th:text>
+				<td th:text="${delivery.sourceCurrency}"></th:text>
+				<td th:text="${delivery.status}"></th:text>			
+			</tr>
+		</table>
+		
+		<br>
+		<a href="/delivery/add_delivery_test"><button type="button">Add Sample Delivery</button></a>
+		<a href="/delivery/download_delivery"><button type="button">Download Delivery List</button></a> 
+	</body>
+</html>
