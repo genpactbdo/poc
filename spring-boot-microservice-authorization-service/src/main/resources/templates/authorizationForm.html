@@ -1,30 +1,42 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-		<form method="POST" enctype="multipart/form-data" action="/">
+	<div th:if="${message}">
+    	<h2 th:text="${message}"/>
+	</div>
+	
+		<form method="POST" action="" th:object="${remittanceForm}">
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>Conduit</th>
+						<th>Conduit<input type="hidden" th:field="*{conduitName}" /></th>
 						<th>Amount</th>
 						<th>Status</th>
 						<th>Authorize</th>
 					</tr>
 				</thead>
-				<th:block th:each="remittance : ${remittances}">
+				
+				<th:block th:each="remittance, stat : ${remittanceForm.remittances}">
 					<tr>
-						<td th:text="${remittance.conduit}"/>
-						<td th:text="${remittance.sourceAmount}"/>
-						<td th:text="${remittance.status}"/>
-						<td><input type="checkbox"/></td>
+				       	<td th:text="${remittance.conduit}"></td>
+				       	<td th:text="${remittance.sourceAmount}"></td>
+				       	<td th:text="${remittance.status == 'O' ? 'OPEN' : 'PROCESSED'}"></td>
+				       	<td>
+				       		<input type="hidden" th:field="*{remittances[__${stat.index}__].id}" />
+				          	<input type="hidden" th:field="*{remittances[__${stat.index}__].conduit}" />
+				          	<input type="hidden" th:field="*{remittances[__${stat.index}__].sourceAmount}" />
+				          	<input type="hidden" th:field="*{remittances[__${stat.index}__].status}" />
+				       		<input type="checkbox" th:field="*{idSelectedAmountEntries}" th:value="*{remittances[__${stat.index}__].id + ':' + remittances[__${stat.index}__].sourceAmount}"/>
+			       		</td>
 					</tr>
 				</th:block>
 			</table>
 			<table>
-				<tr><td></td><td><input type="text" /></td></tr>
+				<tr><td>Authorize Amount</td><td><input type="text" th:field="*{authorizedAmount}"/></td></tr>
 				<tr><td></td><td><input type="submit" value="Authorize" /></td></tr>
 			</table>
 		</form>
 
+		<div><a href="/conduit">Conduits</a></div>
 </body>
 </html>

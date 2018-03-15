@@ -13,7 +13,6 @@ public class Remittance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
  
-    
     private String status;
     private String conduit;
     private Date date;
