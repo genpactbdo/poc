@@ -53,12 +53,6 @@ public class AuthorizationController {
     public String updateConduits(Model model, @ModelAttribute ConduitForm conduitForm) throws IOException {
     	
     	for(Conduit conduit : conduitForm.getConduits()) {
-    		System.out.println(conduit.getId());
-    		System.out.println(conduit.getConduitName());
-    		System.out.println(conduit.getBalance());
-    		System.out.println(conduit.getCreditLimit());
-    		System.out.println(conduit.getTotalRemit());
-    		
     		if(LongStream.of(conduitForm.getIdSelectedConduits()).anyMatch(x -> x == conduit.getId())) {
     			conduitRep.save(conduit);
     		}
@@ -132,7 +126,7 @@ public class AuthorizationController {
 	    		double limit = conduitObj.getCreditLimit();
 	    		double total = conduitObj.getTotalRemit();
 	    		
-	    		double currentLimit = bal + limit - total;
+	    		double currentLimit = getCurrentLimit(bal, limit, total);
 	    		
 	    		if(toAuthorizeAmount <= currentLimit) {
 	    			
@@ -173,12 +167,44 @@ public class AuthorizationController {
     	model.addAttribute("message", message);
     	return "authorizationForm";
     }
+
+	private double getCurrentLimit(double bal, double limit, double total) {
+		return bal + limit - total;
+	}
     
     @RequestMapping(value="/authorize",method=RequestMethod.POST)
     public ResponseEntity<Resource> authorize(@RequestBody Remittance remittance){
     	
-    	remittance.setStatus(OPEN);
-    	repository.save(remittance);
+    	Conduit conduitObj = conduitRep.findByConduitName(remittance.getConduit());
+    	
+    	double amount = remittance.getSourceAmount();
+    	
+    	double bal = conduitObj.getBalance();
+		double limit = conduitObj.getCreditLimit();
+		double total = conduitObj.getTotalRemit();
+		
+		double currentLimit = getCurrentLimit(bal, limit, total);
+		
+		double remainingAmount = currentLimit - amount;
+		if(remainingAmount < 0) {
+			
+			remittance.setStatus(OPEN);
+			repository.save(remittance);
+			
+		} else {
+			
+			bal -= amount;
+			if(bal < 0d) {
+				bal = 0d;
+			}
+			
+			conduitObj.setBalance(bal);
+			conduitObj.setTotalRemit(total + amount);
+			conduitRep.save(conduitObj);
+			
+			remittance.setStatus(PROCESSED);
+	    	repository.save(remittance);
+		}
     	
     	return ResponseEntity.ok().build();
     	

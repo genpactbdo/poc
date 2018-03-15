@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<div th:if="${message}">
+    	<h2 th:text="${message}"/>
+	</div>
+	
+		<form method="POST" action="" th:object="${conduitForm}">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Conduit</th>
+						<th>Balance</th>
+						<th>Credit Limit</th>
+						<th>Update</th>
+					</tr>
+				</thead>
+				
+				<th:block th:each="conduit, stat : ${conduitForm.conduits}">
+					<tr>
+				       	<td th:text="${conduit.conduitName}"></td>
+				       	<td><input type="text" th:field="*{conduits[__${stat.index}__].balance}"/></td>
+				       	<td><input type="text" th:field="*{conduits[__${stat.index}__].creditLimit}"/></td>
+				       	<td>
+				       		<input type="hidden" th:field="*{conduits[__${stat.index}__].id}" />
+				          	<input type="hidden" th:field="*{conduits[__${stat.index}__].conduitName}" />
+				          	<input type="hidden" th:field="*{conduits[__${stat.index}__].totalRemit}" />
+				       		<input type="checkbox" th:field="*{idSelectedConduits}" th:value="*{conduits[__${stat.index}__].id}"/>
+			       		</td>
+					</tr>
+				</th:block>
+			</table>
+			<table>
+				<tr><td></td><td><input type="submit" value="Update" /></td></tr>
+			</table>
+		</form>
+
+		<th:block th:each="conduit, stat : ${conduitForm.conduits}">
+			<div><a th:href="@{/authorize/} + ${conduit.conduitName}" th:text="'Authorize ' + ${conduit.conduitName}"></a></div>
+		</th:block>
+
+</body>
+</html>
