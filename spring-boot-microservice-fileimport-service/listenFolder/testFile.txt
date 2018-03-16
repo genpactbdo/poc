@@ -1,1 +1,0 @@
-1|0000000001|03/08/2018|Sender Name1|Beneficiary Name1|Beneficiary Address1|12345.67|1|12345.67|1|1|1
