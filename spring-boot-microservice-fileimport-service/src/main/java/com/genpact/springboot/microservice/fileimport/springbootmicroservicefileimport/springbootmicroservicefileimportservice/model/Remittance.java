@@ -19,137 +19,260 @@ import com.genpact.springboot.microservice.fileimport.springbootmicroservicefile
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Remittance extends BaseModel implements Serializable{
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "conduit_id")
-	private Conduit conduitId;
-
-	@Column(name = "reference_number")
-	private String referenceNumber;
-
-	@Column(name = "transaction_date")
-	private Date transactionDate;
-
-	@Column(name = "beneficiary_address")
-	private String beneficiaryAddress;
-
-	@Column(name = "sent_amount")
-	private BigDecimal sentAmount;
-
-	@Column(name = "sent_currency")
-	private Integer sentCurrency;
-
-	@Column(name = "payout_amount")
-	private BigDecimal payoutAmount;
-
-	@Column(name = "payout_currency")
-	private Integer payoutCurrency;
-
-	@Column(name = "sender_name")
-	private String senderName;
-
-	@Column(name = "beneficiary_name")
-	private String beneficiaryName;
-
-	@Column(name = "transaction_type")
-	private Integer transactionType;
-
-	@Column(name = "status")
-	private Integer status;
-
-	public Conduit getConduitId() {
-		return conduitId;
+	private String status;
+    private String conduit;
+    private Date date;
+    private String transactionType;
+    private String productType;
+    private String refNo;
+    private String remitterCode;
+    private String remitterName;
+    private String remitterGender;
+    private String civilStatus;
+    private Date dateOfBirth;
+    private String address1;
+    private String address2;
+    private String cityTown;
+    private String stateProvince;
+    private String postalCode;
+    private String country;
+    private String telNo;
+    private String beneficiaryCode;
+    private String beneficiaryName;
+    private String beneficiaryGender;
+    private String beneficiaryCivilStatus;
+    private Date beneficiaryDateOfBirth;
+    private String beneficiaryBank;
+    private String beneficiaryBankAccountNo;
+    private String beneficiaryBankAccountCurrency;
+    private String beneficiaryBankBranch;
+    private String sourceCurrency;
+    private Double sourceAmount;
+    private String beneficiaryAddress1;
+    private String beneficiaryAddress2;
+    private String beneficiaryCityTown;
+    private String beneficiaryStateProvince;
+    private String beneficiaryPostalCode;
+    private String beneficiaryCountry;
+    
+    public Remittance() {
 	}
-
-	public void setConduitId(Conduit conduitId) {
-		this.conduitId = conduitId;
+    
+	public Remittance(String conduit) {
+		this.conduit = conduit;
 	}
-
-	public String getReferenceNumber() {
-		return referenceNumber;
-	}
-
-	public void setReferenceNumber(String referenceNumber) {
-		this.referenceNumber = referenceNumber;
-	}
-
-	public Date getTransactionDate() {
-		return transactionDate;
-	}
-
-	public void setTransactionDate(Date transactionDate) {
-		this.transactionDate = transactionDate;
-	}
-
-	public String getBeneficiaryAddress() {
-		return beneficiaryAddress;
-	}
-
-	public void setBeneficiaryAddress(String beneficiaryAddress) {
-		this.beneficiaryAddress = beneficiaryAddress;
-	}
-
-	public BigDecimal getSentAmount() {
-		return sentAmount;
-	}
-
-	public void setSentAmount(BigDecimal sentAmount) {
-		this.sentAmount = sentAmount;
-	}
-
-	public Integer getSentCurrency() {
-		return sentCurrency;
-	}
-
-	public void setSentCurrency(Integer sentCurrency) {
-		this.sentCurrency = sentCurrency;
-	}
-
-	public BigDecimal getPayoutAmount() {
-		return payoutAmount;
-	}
-
-	public void setPayoutAmount(BigDecimal payoutAmount) {
-		this.payoutAmount = payoutAmount;
-	}
-
-	public Integer getPayoutCurrency() {
-		return payoutCurrency;
-	}
-
-	public void setPayoutCurrency(Integer payoutCurrency) {
-		this.payoutCurrency = payoutCurrency;
-	}
-
-	public String getSenderName() {
-		return senderName;
-	}
-
-	public void setSenderName(String senderName) {
-		this.senderName = senderName;
-	}
-
-	public String getBeneficiaryName() {
-		return beneficiaryName;
-	}
-
-	public void setBeneficiaryName(String beneficiaryName) {
-		this.beneficiaryName = beneficiaryName;
-	}
-
-	public Integer getTransactionType() {
-		return transactionType;
-	}
-
-	public void setTransactionType(Integer transactionType) {
-		this.transactionType = transactionType;
-	}
-
-	public Integer getStatus() {
+	
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
+	public String getConduit() {
+		return conduit;
+	}
+	public void setConduit(String conduit) {
+		this.conduit = conduit;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public String getTransactionType() {
+		return transactionType;
+	}
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
+	public String getProductType() {
+		return productType;
+	}
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
+	public String getRefNo() {
+		return refNo;
+	}
+	public void setRefNo(String refNo) {
+		this.refNo = refNo;
+	}
+	public String getRemitterCode() {
+		return remitterCode;
+	}
+	public void setRemitterCode(String remitterCode) {
+		this.remitterCode = remitterCode;
+	}
+	public String getRemitterName() {
+		return remitterName;
+	}
+	public void setRemitterName(String remitterName) {
+		this.remitterName = remitterName;
+	}
+	public String getRemitterGender() {
+		return remitterGender;
+	}
+	public void setRemitterGender(String remitterGender) {
+		this.remitterGender = remitterGender;
+	}
+	public String getCivilStatus() {
+		return civilStatus;
+	}
+	public void setCivilStatus(String civilStatus) {
+		this.civilStatus = civilStatus;
+	}
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	public String getAddress1() {
+		return address1;
+	}
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+	public String getAddress2() {
+		return address2;
+	}
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+	public String getCityTown() {
+		return cityTown;
+	}
+	public void setCityTown(String cityTown) {
+		this.cityTown = cityTown;
+	}
+	public String getStateProvince() {
+		return stateProvince;
+	}
+	public void setStateProvince(String stateProvince) {
+		this.stateProvince = stateProvince;
+	}
+	public String getPostalCode() {
+		return postalCode;
+	}
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getTelNo() {
+		return telNo;
+	}
+	public void setTelNo(String telNo) {
+		this.telNo = telNo;
+	}
+	public String getBeneficiaryCode() {
+		return beneficiaryCode;
+	}
+	public void setBeneficiaryCode(String beneficiaryCode) {
+		this.beneficiaryCode = beneficiaryCode;
+	}
+	public String getBeneficiaryName() {
+		return beneficiaryName;
+	}
+	public void setBeneficiaryName(String beneficiaryName) {
+		this.beneficiaryName = beneficiaryName;
+	}
+	public String getBeneficiaryGender() {
+		return beneficiaryGender;
+	}
+	public void setBeneficiaryGender(String beneficiaryGender) {
+		this.beneficiaryGender = beneficiaryGender;
+	}
+	public String getBeneficiaryCivilStatus() {
+		return beneficiaryCivilStatus;
+	}
+	public void setBeneficiaryCivilStatus(String beneficiaryCivilStatus) {
+		this.beneficiaryCivilStatus = beneficiaryCivilStatus;
+	}
+	public Date getBeneficiaryDateOfBirth() {
+		return beneficiaryDateOfBirth;
+	}
+	public void setBeneficiaryDateOfBirth(Date beneficiaryDateOfBirth) {
+		this.beneficiaryDateOfBirth = beneficiaryDateOfBirth;
+	}
+	public String getBeneficiaryBank() {
+		return beneficiaryBank;
+	}
+	public void setBeneficiaryBank(String beneficiaryBank) {
+		this.beneficiaryBank = beneficiaryBank;
+	}
+	public String getBeneficiaryBankAccountNo() {
+		return beneficiaryBankAccountNo;
+	}
+	public void setBeneficiaryBankAccountNo(String beneficiaryBankAccountNo) {
+		this.beneficiaryBankAccountNo = beneficiaryBankAccountNo;
+	}
+	public String getBeneficiaryBankAccountCurrency() {
+		return beneficiaryBankAccountCurrency;
+	}
+	public void setBeneficiaryBankAccountCurrency(String beneficiaryBankAccountCurrency) {
+		this.beneficiaryBankAccountCurrency = beneficiaryBankAccountCurrency;
+	}
+	public String getBeneficiaryBankBranch() {
+		return beneficiaryBankBranch;
+	}
+	public void setBeneficiaryBankBranch(String beneficiaryBankBranch) {
+		this.beneficiaryBankBranch = beneficiaryBankBranch;
+	}
+	public String getSourceCurrency() {
+		return sourceCurrency;
+	}
+	public void setSourceCurrency(String sourceCurrency) {
+		this.sourceCurrency = sourceCurrency;
+	}
+	public Double getSourceAmount() {
+		return sourceAmount;
+	}
+	public void setSourceAmount(Double sourceAmount) {
+		this.sourceAmount = sourceAmount;
+	}
+	public String getBeneficiaryAddress1() {
+		return beneficiaryAddress1;
+	}
+	public void setBeneficiaryAddress1(String beneficiaryAddress1) {
+		this.beneficiaryAddress1 = beneficiaryAddress1;
+	}
+	public String getBeneficiaryAddress2() {
+		return beneficiaryAddress2;
+	}
+	public void setBeneficiaryAddress2(String beneficiaryAddress2) {
+		this.beneficiaryAddress2 = beneficiaryAddress2;
+	}
+	public String getBeneficiaryCityTown() {
+		return beneficiaryCityTown;
+	}
+	public void setBeneficiaryCityTown(String beneficiaryCityTown) {
+		this.beneficiaryCityTown = beneficiaryCityTown;
+	}
+	public String getBeneficiaryStateProvince() {
+		return beneficiaryStateProvince;
+	}
+	public void setBeneficiaryStateProvince(String beneficiaryStateProvince) {
+		this.beneficiaryStateProvince = beneficiaryStateProvince;
+	}
+	public String getBeneficiaryPostalCode() {
+		return beneficiaryPostalCode;
+	}
+	public void setBeneficiaryPostalCode(String beneficiaryPostalCode) {
+		this.beneficiaryPostalCode = beneficiaryPostalCode;
+	}
+	public String getBeneficiaryCountry() {
+		return beneficiaryCountry;
+	}
+	public void setBeneficiaryCountry(String beneficiaryCountry) {
+		this.beneficiaryCountry = beneficiaryCountry;
+	}
+    
 }

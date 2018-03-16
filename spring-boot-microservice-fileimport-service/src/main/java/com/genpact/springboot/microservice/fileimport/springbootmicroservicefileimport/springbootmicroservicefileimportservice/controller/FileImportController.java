@@ -1,7 +1,10 @@
 package com.genpact.springboot.microservice.fileimport.springbootmicroservicefileimport.springbootmicroservicefileimportservice.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +48,7 @@ public class FileImportController {
 		return "fileUpload";
 	}
 	
-	@RequestMapping("/upload")
+	/*@RequestMapping("/upload")
 	public String upload(@RequestParam(name="file") MultipartFile file, RedirectAttributes redirectAttributes, Model model) {
 		
 		if(file.isEmpty()) {
@@ -63,7 +66,7 @@ public class FileImportController {
 		}
 				
 		return "fileUploadStatus";
-	}
+	}*/
 	
 	@RequestMapping("/upload_status")
 	public String uploadStatus() {
@@ -80,6 +83,37 @@ public class FileImportController {
 	public @ResponseBody List<Conduit> getConduitList(){
 		return conduitService.getAll();
 	}
+	
+	@RequestMapping("/upload")
+	public String test(@RequestParam(name="file") MultipartFile file, Model model){		
+		try {
+			List<Remittance> list = fileService.parseUploadFile(file);
+			
+			for(Remittance remittance : list) {
+				fileService.sendRemittanceJson("http://localhost:8200/authorize", remittance);
+				System.out.println("Remittance sent!");
+			}
+						
+			System.out.println("Remittance sending successful!");
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("message", "You have successfully uploaded '" + file.getOriginalFilename() + "'");
+		return "fileUploadStatus";
+	}
+	
+	
 		
 	/*@RequestMapping("/test_import_file")
 	public String importFileTest() {
