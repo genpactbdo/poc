@@ -8,3 +8,6 @@ insert into remittance(id,conduit,status,source_Amount) values (7,'SB','O',6000)
 insert into remittance(id,conduit,status,source_Amount) values (8,'ML','P',7000);
 insert into remittance(id,conduit,status,source_Amount) values (9,'ML','O',2000);
 insert into remittance(id,conduit,status,source_Amount) values (10,'ML','O',3000);
+
+insert into conduit(conduit_name, balance, credit_limit, total_remit) values ('ML', 2000, 10000, 0);
+insert into conduit(conduit_name, balance, credit_limit, total_remit) values ('SB', 1000, 10000, 0);

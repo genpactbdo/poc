@@ -1,4 +1,5 @@
 package com.genpact.springboot.microservice.authorization.springbootmicroserviceauthorizationservice.repository;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -9,7 +10,8 @@ import com.genpact.springboot.microservice.authorization.springbootmicroservicea
 @RepositoryRestResource
 public interface RemittanceRepository extends CrudRepository<Remittance, Long> {
 
-	List<Remittance> findAllByStatus(String status);
-	List<Remittance> findAllByConduit(String conduit);
+	ArrayList<Remittance> findAllByStatus(String status);
+	ArrayList<Remittance> findAllByConduit(String conduit);
+	ArrayList<Remittance> findByConduitAndStatus(String conduit, String status);
 	
 }
