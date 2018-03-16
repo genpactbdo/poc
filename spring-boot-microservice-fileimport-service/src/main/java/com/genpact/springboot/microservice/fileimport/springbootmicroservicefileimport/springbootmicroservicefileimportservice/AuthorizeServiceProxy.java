@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.genpact.springboot.microservice.fileimport.springbootmicroservicefileimport.springbootmicroservicefileimportservice.model.Remittance;
 
 @FeignClient(name="authorization-service")
-@RibbonClient(name="forex-service")
+@RibbonClient(name="authorization-service")
 public interface AuthorizeServiceProxy {
   @PostMapping("/authorize")
   public void authorize(Remittance remittance);
