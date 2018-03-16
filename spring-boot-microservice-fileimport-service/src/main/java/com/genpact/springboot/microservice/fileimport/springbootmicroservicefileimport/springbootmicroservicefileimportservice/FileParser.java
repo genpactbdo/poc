@@ -33,10 +33,12 @@ public class FileParser {
 		
 		fileReader = new FileReader(file);			
 		bufferedReader = new BufferedReader(fileReader);	
+		bufferedReader.readLine();
 		
 		String string = null;
 
-		while((string = bufferedReader.readLine()) != null) {			
+		while((string = bufferedReader.readLine()) != null) {	
+			System.out.println(string);
 			String[] values = string.split("\\|");
 			
 			Remittance r = new Remittance();
