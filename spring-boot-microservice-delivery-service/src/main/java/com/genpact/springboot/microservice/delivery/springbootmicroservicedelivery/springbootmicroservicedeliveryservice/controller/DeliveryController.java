@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,6 +30,7 @@ import com.genpact.springboot.microservice.delivery.springbootmicroservicedelive
 public class DeliveryController {
 
 	private static final String FILE_PATH = "temp.log";
+	private static final String DOOR_TO_DOOR = "DTD";
 	
 	@Autowired
 	private RemittanceService remittanceService;
@@ -103,12 +105,12 @@ public class DeliveryController {
 	            .body(resource);
 	}  
 
-	@RequestMapping("/add_delivery")
-	public void add(@RequestBody Remittance remittance) {
+	@RequestMapping(value="/add_delivery",method=RequestMethod.POST)
+	public ResponseEntity<Resource> add(@RequestBody Remittance remittance) {
 		
 		//Segregation of CTA and DTD happens here.
 		if(remittance != null) {
-			if(remittance.getTransactionType().equals("DTD")) {
+			if(DOOR_TO_DOOR.equals(remittance.getTransactionType())) {
 				remittance.setStatus("PENDING DELIVERY");
 			}else{
 				remittance.setStatus("REMITTED");
@@ -117,6 +119,7 @@ public class DeliveryController {
 			remittanceService.add(remittance);
 		}					
 		
+		return ResponseEntity.ok().build();
 	} 
 	
 	

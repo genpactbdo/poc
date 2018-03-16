@@ -7,6 +7,7 @@ import java.util.stream.LongStream;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -42,6 +43,9 @@ public class AuthorizationController {
 	
 	@Autowired
 	private ConduitRepository conduitRep;
+	
+	@Autowired
+	private Environment environment;
 	
     @GetMapping("/conduit")
     public String listConduits(Model model, @ModelAttribute ConduitForm conduitForm) throws IOException {
@@ -95,9 +99,7 @@ public class AuthorizationController {
     public String handleManualAuthorize(@PathVariable String conduit, @ModelAttribute RemittanceForm remittanceForm, 
     			Model model, RedirectAttributes redirectAttributes) {
 
-    	System.out.println("==================remittanceForm is: " + remittanceForm);
-    	System.out.println("==================remittances is: " + remittanceForm.getRemittances());
-    	System.out.println("==================authorizedAmount is: " + remittanceForm.getAuthorizedAmount()	);
+    	System.out.println("authorization running on port: " + environment.getProperty("local.server.port"));
     	
     	String message = "";
     	
@@ -151,6 +153,7 @@ public class AuthorizationController {
 	    				Remittance rem = repository.findById(remId).get();
 	    				rem.setStatus(PROCESSED);
 	    				repository.save(rem);
+	    				sendRemittanceJson("http://localhost:8500/delivery/add_delivery", rem);
 	    			}
 	    			
 	    			redirectAttributes.addFlashAttribute("message", "Authorization successful");
@@ -184,6 +187,9 @@ public class AuthorizationController {
     	
     	double amount = remittance.getSourceAmount();
     	
+    	if(conduitObj == null) {
+    		return ResponseEntity.unprocessableEntity().build();
+    	}
     	double bal = conduitObj.getBalance();
 		double limit = conduitObj.getCreditLimit();
 		double total = conduitObj.getTotalRemit();
@@ -211,9 +217,10 @@ public class AuthorizationController {
 	    	repository.save(remittance);
 	    	
 	    	// call delivery
-	    	sendRemittanceJson("http://localhost:8500/add_delivery", remittance);
+	    	sendRemittanceJson("http://localhost:8500/delivery/add_delivery", remittance);
 		}
     	
+		System.out.println("authorization server run on port: " + environment.getProperty("local.server.port"));
     	return ResponseEntity.ok().build();
     	
     }

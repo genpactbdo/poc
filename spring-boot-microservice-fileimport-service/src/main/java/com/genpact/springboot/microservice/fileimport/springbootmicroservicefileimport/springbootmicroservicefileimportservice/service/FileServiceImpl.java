@@ -32,12 +32,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.genpact.springboot.microservice.fileimport.springbootmicroservicefileimport.springbootmicroservicefileimportservice.AuthorizeServiceProxy;
 import com.genpact.springboot.microservice.fileimport.springbootmicroservicefileimport.springbootmicroservicefileimportservice.FileParser;
 import com.genpact.springboot.microservice.fileimport.springbootmicroservicefileimport.springbootmicroservicefileimportservice.model.Remittance;
 
 @Service("fileService")
 public class FileServiceImpl extends BaseServiceImpl implements FileService{
 
+	@Autowired
+	private AuthorizeServiceProxy proxy;
+	
 	private JpaRepository<Remittance,Long> remittanceRepository;
 	
 	private final String FILEPATH = "listenFolder";
@@ -122,10 +126,13 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService{
 	@Override
 	public void sendRemittanceJson(String url, Remittance remittance) {
 		// TODO Auto-generated method stub
-		RestTemplate restTemplate = new RestTemplate();
+		/*RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);       
         HttpEntity<?> entity = new HttpEntity<Object>(remittance,headers);
-        ResponseEntity<Object> responseEntity =  restTemplate.exchange(url, HttpMethod.POST, entity, Object.class);       
+        ResponseEntity<Object> responseEntity =  restTemplate.exchange(url, HttpMethod.POST, entity, Object.class);*/
+		
+		proxy.authorize(remittance);
+        
 	}
 }
