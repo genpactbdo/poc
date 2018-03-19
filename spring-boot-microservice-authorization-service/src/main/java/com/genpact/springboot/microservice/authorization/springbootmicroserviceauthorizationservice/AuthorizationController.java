@@ -2,11 +2,8 @@ package com.genpact.springboot.microservice.authorization.springbootmicroservice
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.stream.LongStream;
 
-import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
@@ -50,8 +47,10 @@ public class AuthorizationController {
 	
     @GetMapping("/conduit")
     public String listConduits(Model model, @ModelAttribute ConduitForm conduitForm) throws IOException {
-    	List<Conduit> conduitList = IteratorUtils.toList(conduitRep.findAll().iterator());
-    	ArrayList<Conduit> conduits = new ArrayList<Conduit>(conduitList);
+    	
+    	Iterable<Conduit> conduitIterable = conduitRep.findAll();
+    	ArrayList<Conduit> conduits = new ArrayList<>();
+    	conduitIterable.forEach(conduits::add);
     	conduitForm.setConduits(conduits);
     	
     	model.addAttribute("conduitForm", conduitForm);
