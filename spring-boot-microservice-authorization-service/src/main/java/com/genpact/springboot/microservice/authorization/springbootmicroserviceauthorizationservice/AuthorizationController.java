@@ -2,6 +2,7 @@ package com.genpact.springboot.microservice.authorization.springbootmicroservice
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.LongStream;
 
@@ -73,8 +74,9 @@ public class AuthorizationController {
     		System.out.println("id: " + id);
     	}
     	
-    	List<Conduit> conduitList = IteratorUtils.toList(conduitRep.findAll().iterator());
-    	ArrayList<Conduit> conduits = new ArrayList<Conduit>(conduitList);
+    	Iterable<Conduit> conduitIterable = conduitRep.findAll();
+    	ArrayList<Conduit> conduits = new ArrayList<>();
+    	conduitIterable.forEach(conduits::add);
     	conduitForm.setConduits(conduits);
     	
     	model.addAttribute("conduitForm", conduitForm);
